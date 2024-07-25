@@ -4,7 +4,7 @@
 
 @layer components {
     nav {
-        @apply p-5 max-w-screen-2xl mx-auto flex items-center justify-between bg-slate-800 text-white;
+        @apply p-5 w-full mx-auto flex items-center justify-between bg-slate-800 text-white;
     }
     input[type="url"],
     textarea {

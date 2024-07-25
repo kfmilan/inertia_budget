@@ -1,16 +1,19 @@
 import { Link } from "@inertiajs/react";
+import { useRoute } from "../../../vendor/tightenco/ziggy/src/js";
 
 export default function Layout({ children }) {
+    const route = useRoute();
+
     return (
         <>
             <header>
                 <nav>
-                    <Link href="/">Home</Link>
-                    <Link href="accounts/create">Create</Link>
+                    <Link href={route("home")}>Home</Link>
+                    <Link href="/accounts/create">Create</Link>
                 </nav>
             </header>
 
-            <main class="max-w-screen-2xl mx-auto">{children}</main>
+            <main className="w-full mx-auto">{children}</main>
         </>
     );
 }
