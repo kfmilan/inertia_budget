@@ -1,49 +1,49 @@
 import { Head, useForm, usePage } from "@inertiajs/react";
 
-export default function Create() {
-    const { data, setData, post, errors, processing } = useForm({
-        name: "",
-        balance: "",
+export default function Edit({ account }) {
+    const { data, setData, put, errors, processing } = useForm({
+        name: account.name,
+        balance: account.balance,
     });
-
-    const { component } = usePage();
 
     function submit(e) {
         e.preventDefault();
-        post("/accounts");
+        put(`/accounts/${account.id}`);
     }
 
-    console.log(errors);
+    const { component } = usePage();
 
     return (
         <>
             <Head title={component} />
-            <h1 class="font-bold">Create new Account</h1>
+            <h1 className="font-bold">Update Account</h1>
 
-            <div class="w-1/2 mx-auto">
+            <div className="w-1/2 mx-auto">
                 <form onSubmit={submit}>
                     <span>Name: {data.name}</span>
                     <textarea
-                        rows="4"
+                        rows="2"
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
                         className={errors.name ? "!ring-red-500" : ""}
                     ></textarea>
-                    <span>Initial Amount</span>
+                    <span>Amount</span>
                     <textarea
-                        rows="4"
+                        rows="2"
                         value={data.balance}
                         onChange={(e) => setData("balance", e.target.value)}
                         className={errors.balance ? "!ring-red-500" : ""}
                     ></textarea>
 
-                    {errors.name && <p class="text-red-500">{errors.name}</p>}
+                    {errors.name && (
+                        <p className="text-red-500">{errors.name}</p>
+                    )}
                     {errors.balance && (
-                        <p class="text-red-500">{errors.balance}</p>
+                        <p className="text-red-500">{errors.balance}</p>
                     )}
 
-                    <button class="primary-btn mt-5" disabled={processing}>
-                        Create account
+                    <button className="primary-btn mt-5" disabled={processing}>
+                        Update account
                     </button>
                 </form>
             </div>

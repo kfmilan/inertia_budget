@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -21,7 +22,7 @@ class AccountController extends Controller
      */
     public function create()
     {
-        return inertia('Create');
+        return inertia('Accounts/Create');
     }
 
     /**
@@ -31,7 +32,7 @@ class AccountController extends Controller
     {
         $fields = $request->validate([
             'name' => ['required'],
-            'balance' => ['required'],
+            'balance' => ['required', 'numeric'],
         ]);
 
         Account::create($fields);
@@ -44,7 +45,8 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        return inertia('Show', ['account' => $account]);
+        $transactions = $account->transactions->map(function ($transaction) {return $transaction->transaction;});
+        return inertia('Accounts/Show', ['account' => $account, 'transactions'=> $transactions]);
     }
 
     /**
@@ -52,7 +54,7 @@ class AccountController extends Controller
      */
     public function edit(Account $account)
     {
-        return inertia('Edit', ['account' => $account]);
+        return inertia('Accounts/Edit', ['account' => $account]);
     }
 
     /**
@@ -77,4 +79,5 @@ class AccountController extends Controller
         $account->delete();
         return redirect('/')->with('message', 'Account deleted.');
     }
+
 }
